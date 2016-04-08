@@ -19,6 +19,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.sam_chordas.android.stockhawk.R;
@@ -72,12 +73,16 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
       mServiceIntent.putExtra("tag", "init");
       if (isConnected){
         startService(mServiceIntent);
+        hideNetworkMessage();
       } else{
         networkToast();
+        showNetworkMessage();
       }
     }
     RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
     recyclerView.setLayoutManager(new LinearLayoutManager(this));
+//    View emptyView = findViewById(R.id.action_change_units);
+//    recyclerView.setEmpty
     getLoaderManager().initLoader(CURSOR_LOADER_ID, null, this);
 
     mCursorAdapter = new QuoteCursorAdapter(this, null);
@@ -96,6 +101,8 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
     fab.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
         if (isConnected){
+          hideNetworkMessage();
+
           new MaterialDialog.Builder(mContext).title(R.string.symbol_search)
               .content(R.string.content_test)
               .inputType(InputType.TYPE_CLASS_TEXT)
@@ -121,9 +128,11 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
                   }
                 }
               })
-              .show();
+                  .show();
+
         } else {
           networkToast();
+          showNetworkMessage();
         }
 
       }
@@ -155,6 +164,21 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
     }
   }
 
+  private void showNetworkMessage(){
+
+    TextView networkMessage = (TextView)findViewById(R.id.network_message_view);
+    networkMessage.setVisibility(View.VISIBLE);
+    View recyclerView = findViewById(R.id.recycler_view);
+    recyclerView.setVisibility(View.GONE);
+
+  }
+
+  private void hideNetworkMessage(){
+    TextView networkMessage = (TextView)findViewById(R.id.network_message_view);
+    networkMessage.setVisibility(View.GONE);
+    View recyclerView = findViewById(R.id.recycler_view);
+    recyclerView.setVisibility(View.VISIBLE);
+  }
 
   @Override
   public void onResume() {
