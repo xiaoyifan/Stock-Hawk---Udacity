@@ -11,5 +11,8 @@
   <string name="input_prefill"></string>
   <string name="network_toast">Uh-oh! This app requires an internet connection</string>
 
-  <string name="network_not_available">Sorry, the network is not available now</string>
+  <string name="stock_info_not_available">The update is not available.</string>
+  <string name="network_not_available">The network is not available now</string>
+
+  <string name="pref_stock_status_key">stock-status</string>
 </resources>

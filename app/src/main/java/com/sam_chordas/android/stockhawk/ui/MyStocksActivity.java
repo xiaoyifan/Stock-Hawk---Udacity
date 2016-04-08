@@ -73,10 +73,8 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
       mServiceIntent.putExtra("tag", "init");
       if (isConnected){
         startService(mServiceIntent);
-        hideNetworkMessage();
       } else{
         networkToast();
-        showNetworkMessage();
       }
     }
     RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
@@ -101,7 +99,6 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
     fab.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
         if (isConnected){
-          hideNetworkMessage();
 
           new MaterialDialog.Builder(mContext).title(R.string.symbol_search)
               .content(R.string.content_test)
@@ -132,7 +129,6 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
 
         } else {
           networkToast();
-          showNetworkMessage();
         }
 
       }
@@ -162,22 +158,6 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
       // are updated.
       GcmNetworkManager.getInstance(this).schedule(periodicTask);
     }
-  }
-
-  private void showNetworkMessage(){
-
-    TextView networkMessage = (TextView)findViewById(R.id.network_message_view);
-    networkMessage.setVisibility(View.VISIBLE);
-    View recyclerView = findViewById(R.id.recycler_view);
-    recyclerView.setVisibility(View.GONE);
-
-  }
-
-  private void hideNetworkMessage(){
-    TextView networkMessage = (TextView)findViewById(R.id.network_message_view);
-    networkMessage.setVisibility(View.GONE);
-    View recyclerView = findViewById(R.id.recycler_view);
-    recyclerView.setVisibility(View.VISIBLE);
   }
 
   @Override
@@ -240,7 +220,32 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
   public void onLoadFinished(Loader<Cursor> loader, Cursor data){
     mCursorAdapter.swapCursor(data);
     mCursor = data;
+    updateEmptyView();
   }
+
+  private void updateEmptyView() {
+    if ( mCursorAdapter.getItemCount() == 0 ) {
+      TextView tv = (TextView) findViewById(R.id.network_message_view);
+      if ( null != tv ) {
+        // if cursor is empty, why? do we have an invalid location
+        int message = R.string.stock_info_not_available;
+        if (!Utils.hasNetworkConnection(this) ) {
+          message = R.string.network_not_available;
+        }
+        tv.setText(message);
+        tv.setVisibility(View.VISIBLE);
+        View recyclerView = findViewById(R.id.recycler_view);
+        recyclerView.setVisibility(View.GONE);
+      }
+    }
+    else{
+      TextView networkMessage = (TextView)findViewById(R.id.network_message_view);
+      networkMessage.setVisibility(View.GONE);
+      View recyclerView = findViewById(R.id.recycler_view);
+      recyclerView.setVisibility(View.VISIBLE);
+    }
+  }
+
 
   @Override
   public void onLoaderReset(Loader<Cursor> loader){
