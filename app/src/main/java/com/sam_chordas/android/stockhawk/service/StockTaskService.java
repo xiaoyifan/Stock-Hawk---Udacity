@@ -1,21 +1,16 @@
 package com.sam_chordas.android.stockhawk.service;
 
-import android.content.ContentProviderOperation;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.OperationApplicationException;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.os.RemoteException;
-import android.preference.PreferenceManager;
-import android.support.annotation.IntDef;
 import android.util.Log;
 
 import com.google.android.gms.gcm.GcmNetworkManager;
 import com.google.android.gms.gcm.GcmTaskService;
 import com.google.android.gms.gcm.TaskParams;
-import com.sam_chordas.android.stockhawk.R;
 import com.sam_chordas.android.stockhawk.data.QuoteColumns;
 import com.sam_chordas.android.stockhawk.data.QuoteProvider;
 import com.sam_chordas.android.stockhawk.rest.Utils;
@@ -23,16 +18,9 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 import java.net.URLEncoder;
-import java.util.ArrayList;
 
 /**
  * Created by sam_chordas on 9/30/15.
@@ -46,10 +34,6 @@ public class StockTaskService extends GcmTaskService{
   private Context mContext;
   private StringBuilder mStoredSymbols = new StringBuilder();
   private boolean isUpdate;
-
-  @Retention(RetentionPolicy.SOURCE)
-  @IntDef({STOCK_STATUS_OK, STOCK_STATUS_SERVER_DOWN, STOCK_STATUS_SERVER_INVALID, STOCK_STATUS_UNKNOWN})
-  public @interface LocationStatus {}
 
   public static final int STOCK_STATUS_OK = 0;
   public static final int STOCK_STATUS_SERVER_DOWN = 1;
@@ -134,77 +118,35 @@ public class StockTaskService extends GcmTaskService{
     String getResponse;
     int result = GcmNetworkManager.RESULT_FAILURE;
 
-    if (urlStringBuilder != null){
+    if (urlStringBuilder != null) {
       urlString = urlStringBuilder.toString();
-      try{
+      Log.e("url", urlString);
+      try {
         getResponse = fetchData(urlString);
-        if (getResponse.length() == 0)
-        {
-          setStockStatus(mContext, STOCK_STATUS_SERVER_DOWN);
-          return result;
-        }
-        result = GcmNetworkManager.RESULT_SUCCESS;
-
         try {
-          ContentValues contentValues = new ContentValues();
-          // update ISCURRENT to 0 (false) so new data is current
-          if (isUpdate){
-            contentValues.put(QuoteColumns.ISCURRENT, 0);
-            mContext.getContentResolver().update(QuoteProvider.Quotes.CONTENT_URI, contentValues,
-                null, null);
-          }
-          mContext.getContentResolver().applyBatch(QuoteProvider.AUTHORITY,
-              quoteJsonToContentVals(getResponse));
-          setStockStatus(mContext, STOCK_STATUS_OK);
+          if (Utils.quoteJsonToContentVals(getResponse) != null) {
+            ContentValues contentValues = new ContentValues();
+            // update ISCURRENT to 0 (false) so new data is current
+            if (isUpdate) {
+              contentValues.put(QuoteColumns.ISCURRENT, 0);
+              mContext.getContentResolver().update(QuoteProvider.Quotes.CONTENT_URI, contentValues,
+                      null, null);
+            }
+            mContext.getContentResolver().applyBatch(QuoteProvider.AUTHORITY,
+                    Utils.quoteJsonToContentVals(getResponse));
 
-        }catch (RemoteException | OperationApplicationException e){
+            result = GcmNetworkManager.RESULT_SUCCESS;
+          }
+        } catch (RemoteException | OperationApplicationException e) {
           Log.e(LOG_TAG, "Error applying batch insert", e);
         }
-      } catch (IOException e){
+      } catch (IOException e) {
         e.printStackTrace();
-        setStockStatus(mContext, STOCK_STATUS_SERVER_DOWN);
       }
     }
 
     return result;
   }
 
-  public ArrayList quoteJsonToContentVals(String JSON){
-    ArrayList<ContentProviderOperation> batchOperations = new ArrayList<>();
-    JSONObject jsonObject = null;
-    JSONArray resultsArray = null;
-    try{
-      jsonObject = new JSONObject(JSON);
-      if (jsonObject != null && jsonObject.length() != 0){
-        jsonObject = jsonObject.getJSONObject("query");
-        int count = Integer.parseInt(jsonObject.getString("count"));
-        if (count == 1){
-          jsonObject = jsonObject.getJSONObject("results")
-                  .getJSONObject("quote");
-          batchOperations.add(Utils.buildBatchOperation(jsonObject));
-        } else{
-          resultsArray = jsonObject.getJSONObject("results").getJSONArray("quote");
-
-          if (resultsArray != null && resultsArray.length() != 0){
-            for (int i = 0; i < resultsArray.length(); i++){
-              jsonObject = resultsArray.getJSONObject(i);
-              batchOperations.add(Utils.buildBatchOperation(jsonObject));
-            }
-          }
-        }
-      }
-    } catch (JSONException e){
-      Log.e(LOG_TAG, "String to JSON failed: " + e);
-      setStockStatus(mContext, STOCK_STATUS_SERVER_INVALID);
-    }
-    return batchOperations;
-  }
-
-  static private void setStockStatus(Context c, @LocationStatus int locationStatus){
-    SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(c);
-    SharedPreferences.Editor spe = sp.edit();
-    spe.putInt(c.getString(R.string.pref_stock_status_key), locationStatus);
-    spe.commit();
-  }
 
 }

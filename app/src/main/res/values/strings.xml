@@ -11,8 +11,21 @@
   <string name="input_prefill"></string>
   <string name="network_toast">Uh-oh! This app requires an internet connection</string>
 
+  <string name="valid_toast">" added!"</string>
+  <string name="invalid_toast">" is not a valid stock!"</string>
+
   <string name="stock_info_not_available">The update is not available.</string>
   <string name="network_not_available">The network is not available now</string>
 
   <string name="pref_stock_status_key">stock-status</string>
+
+
+  <string name="key_tag" translatable="false">tag</string>
+  <string name="key_symbol" translatable="false">symbol</string>
+  <string name="tag_periodic" translatable="false">periodic</string>
+
+  <!--Values-->
+  <string name="value_init" translatable="false">init</string>
+  <string name="value_add" translatable="false">add</string>
+
 </resources>

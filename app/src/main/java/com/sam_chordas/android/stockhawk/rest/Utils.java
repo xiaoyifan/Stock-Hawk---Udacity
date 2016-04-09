@@ -4,12 +4,16 @@ import android.content.ContentProviderOperation;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.util.Log;
 
 import com.sam_chordas.android.stockhawk.data.QuoteColumns;
 import com.sam_chordas.android.stockhawk.data.QuoteProvider;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 /**
  * Created by sam_chordas on 10/8/15.
@@ -65,6 +69,61 @@ public class Utils {
     return builder.build();
   }
 
+  public static ArrayList quoteJsonToContentVals(String JSON) {
+    ArrayList<ContentProviderOperation> batchOperations = new ArrayList<>();
+    JSONObject jsonObject = null;
+    JSONArray resultsArray = null;
+    try {
+      jsonObject = new JSONObject(JSON);
+      if (jsonObject != null && jsonObject.length() != 0) {
+        jsonObject = jsonObject.getJSONObject("query");
+        int count = Integer.parseInt(jsonObject.getString("count"));
+        String created = jsonObject.getString("created");
+        if (count == 1) {
+          jsonObject = jsonObject.getJSONObject("results")
+                  .getJSONObject("quote");
+          batchOperations.add(buildBatchOperation(jsonObject, created));
+        } else {
+          resultsArray = jsonObject.getJSONObject("results").getJSONArray("quote");
+
+          if (resultsArray != null && resultsArray.length() != 0) {
+            for (int i = 0; i < resultsArray.length(); i++) {
+              jsonObject = resultsArray.getJSONObject(i);
+              batchOperations.add(buildBatchOperation(jsonObject, created));
+            }
+          }
+        }
+      }
+    } catch (JSONException e) {
+      Log.e(LOG_TAG, "String to JSON failed: " + e);
+    } catch (Exception e) {
+      return null;
+    }
+    return batchOperations;
+  }
+
+  public static ContentProviderOperation buildBatchOperation(JSONObject jsonObject, String created) {
+    ContentProviderOperation.Builder builder = ContentProviderOperation.newInsert(
+            QuoteProvider.Quotes.CONTENT_URI);
+    try {
+      String change = jsonObject.getString("Change");
+      builder.withValue(QuoteColumns.SYMBOL, jsonObject.getString("symbol"));
+      builder.withValue(QuoteColumns.BIDPRICE, truncateBidPrice(jsonObject.getString("Bid")));
+      builder.withValue(QuoteColumns.PERCENT_CHANGE, truncateChange(
+              jsonObject.getString("ChangeinPercent"), true));
+      builder.withValue(QuoteColumns.CHANGE, truncateChange(change, false));
+      builder.withValue(QuoteColumns.ISCURRENT, 1);
+      if (change.charAt(0) == '-') {
+        builder.withValue(QuoteColumns.ISUP, 0);
+      } else {
+        builder.withValue(QuoteColumns.ISUP, 1);
+      }
+      builder.withValue(QuoteColumns.CREATED, created);
+    } catch (JSONException e) {
+      e.printStackTrace();
+    }
+    return builder.build();
+  }
 
   public static boolean hasNetworkConnection(Context context) {
     boolean hasConnectedWifi = false;
