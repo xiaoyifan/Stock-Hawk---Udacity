@@ -27,5 +27,6 @@
   <!--Values-->
   <string name="value_init" translatable="false">init</string>
   <string name="value_add" translatable="false">add</string>
+    <string name="title_activity_detail">DetailActivity</string>
 
 </resources>
