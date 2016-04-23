@@ -8,20 +8,28 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.ActionBar;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.InputType;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.gcm.GcmNetworkManager;
+import com.google.android.gms.gcm.PeriodicTask;
+import com.google.android.gms.gcm.Task;
+import com.melnykov.fab.FloatingActionButton;
 import com.sam_chordas.android.stockhawk.R;
 import com.sam_chordas.android.stockhawk.data.QuoteColumns;
 import com.sam_chordas.android.stockhawk.data.QuoteProvider;
@@ -30,10 +38,6 @@ import com.sam_chordas.android.stockhawk.rest.RecyclerViewItemClickListener;
 import com.sam_chordas.android.stockhawk.rest.Utils;
 import com.sam_chordas.android.stockhawk.service.StockIntentService;
 import com.sam_chordas.android.stockhawk.service.StockTaskService;
-import com.google.android.gms.gcm.GcmNetworkManager;
-import com.google.android.gms.gcm.PeriodicTask;
-import com.google.android.gms.gcm.Task;
-import com.melnykov.fab.FloatingActionButton;
 import com.sam_chordas.android.stockhawk.touch_helper.SimpleItemTouchHelperCallback;
 
 public class MyStocksActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
@@ -53,6 +57,9 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
   private Context mContext;
   private Cursor mCursor;
   boolean isConnected;
+
+  private final String LOG_TAG = MyStocksActivity.class.getSimpleName();
+  private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -160,6 +167,35 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
       // are updated.
       GcmNetworkManager.getInstance(this).schedule(periodicTask);
     }
+
+
+    if (!checkPlayServices()) {
+      // This is where we could either prompt a user that they should install
+      // the latest version of Google Play Services, or add an error snackbar
+      // that some features won't be available.
+    }
+
+  }
+
+  /**
+   * Check the device to make sure it has the Google Play Services APK. If
+   * it doesn't, display a dialog that allows users to download the APK from
+   * the Google Play Store or enable it in the device's system settings.
+   */
+  private boolean checkPlayServices() {
+    GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
+    int resultCode = apiAvailability.isGooglePlayServicesAvailable(this);
+    if (resultCode != ConnectionResult.SUCCESS) {
+      if (apiAvailability.isUserResolvableError(resultCode)) {
+        apiAvailability.getErrorDialog(this, resultCode,
+                PLAY_SERVICES_RESOLUTION_REQUEST).show();
+      } else {
+        Log.i(LOG_TAG, "This device is not supported.");
+        finish();
+      }
+      return false;
+    }
+    return true;
   }
 
   @Override

@@ -35,13 +35,6 @@ public class StockTaskService extends GcmTaskService{
   private StringBuilder mStoredSymbols = new StringBuilder();
   private boolean isUpdate;
 
-  public static final int STOCK_STATUS_OK = 0;
-  public static final int STOCK_STATUS_SERVER_DOWN = 1;
-  public static final int
-          STOCK_STATUS_SERVER_INVALID = 2;
-  public static final int
-          STOCK_STATUS_UNKNOWN = 3;
-
   public StockTaskService(){}
 
   public StockTaskService(Context context){

@@ -44,7 +44,7 @@ public class StockIntentService extends IntentService {
             getResources().getString(R.string.key_tag)), args))
             == GcmNetworkManager.RESULT_FAILURE) {
       // Not valid stock input
-      final String input = intent.getStringExtra(getResources().getString(R.string.key_symbol)).toUpperCase();
+      final String input = intent.getStringExtra(getResources().getString(R.string.key_symbol));
       new Handler(Looper.getMainLooper()).post(new Runnable() {
         @Override
         public void run() {
