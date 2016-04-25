@@ -113,7 +113,7 @@ public class LineChartFragment extends Fragment implements OnChartValueSelectedL
         mChart.setPinchZoom(false);
 
 
-        mChart.setBackgroundColor(Color.BLACK);
+        //mChart.setBackgroundColor(Color.BLACK);
 
         Legend l = mChart.getLegend();
         l.setForm(Legend.LegendForm.LINE);

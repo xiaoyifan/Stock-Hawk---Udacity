@@ -34,4 +34,8 @@
     <string name="quote_history_text">اقتباس التاريخ</string>
     <string name="quote_history_error">لا تتوافر بيانات.</string>
 
+    <string name="title_portfolio_widget">محفظة القطعة</string>
+    <string name="widget_title">سوق اليوم</string>
+
+
 </resources>

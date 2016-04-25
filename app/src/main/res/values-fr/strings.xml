@@ -32,4 +32,8 @@
     <string name="quote_history_text">histoire de citation</string>
     <string name="quote_history_error">Pas de données disponibles.</string>
 
+    <string name="title_portfolio_widget">portefeuille widget de</string>
+    <string name="widget_title">le marché d\'aujourd\'hui</string>
+
+
 </resources>

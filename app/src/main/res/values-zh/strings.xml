@@ -41,4 +41,8 @@
     <string name="quote_history_text">股票历史</string>
     <string name="quote_history_error">数据错误.</string>
 
+    <string name="title_portfolio_widget">应用组件</string>
+    <string name="widget_title">今日市场</string>
+
+
 </resources>
