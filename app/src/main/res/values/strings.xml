@@ -42,4 +42,7 @@
   <string name="quote_history_text">Quote history</string>
   <string name="quote_history_error">No data available.</string>
 
+  <string name="title_portfolio_widget">Porfolio Widget</string>
+  <string name="widget_title">Market Today</string>
+
 </resources>
