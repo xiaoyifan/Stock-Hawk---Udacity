@@ -155,26 +155,26 @@ public class Utils {
     return queryDayFormat.format(dateInMillis);
   }
 
-  public static String getDateBackTo(Date date, String period){
+  public static String getDateBackTo(Date date, int position){
 
     Calendar calendar = Calendar.getInstance();
     calendar.setTime(date);
 
-    switch (period){
+    switch (position){
 
-      case "1W":
+      case 0:
         calendar.add(Calendar.DATE, -7);
         break;
-      case "1M":
+      case 1:
         calendar.add(Calendar.MONTH, -1);
         break;
-      case "3M":
+      case 2:
         calendar.add(Calendar.MONTH, -3);
         break;
-      case "6M":
+      case 3:
         calendar.add(Calendar.MONTH, -6);
         break;
-      case "1Y":
+      case 4:
         calendar.add(Calendar.YEAR, -1);
         break;
 

@@ -1,0 +1,35 @@
+<resources>
+    <string name="app_name">Stock faucon</string>
+
+    <string name="action_example">Exemple d\'action</string>
+
+    <string name="action_settings">Paramètres</string>
+    <string name="action_change_units">Unités de changement</string>
+    <string name="symbol_search">Symbole Recherche</string>
+    <string name="content_test">Rechercher un Symbole boursier</string>
+    <string name="input_hint">FB</string>
+    <string name="input_prefill"></string>
+    <string name="network_toast">Uh-oh! Cette application nécessite une connexion Internet</string>
+
+    <string name="valid_toast">" ajoutée!"</string>
+    <string name="invalid_toast">" est pas un stock valide!"</string>
+
+    <string name="stock_info_not_available">La mise à jour ne sont pas disponibles.</string>
+    <string name="network_not_available">Le réseau ne sont pas disponibles actuellement</string>
+
+    <string name="pref_stock_status_key">stock-status</string>
+
+    <string name="title_activity_detail">DetailActivity</string>
+
+    <string name="one_week">1 semaine</string>
+    <string name="one_month">1 mois</string>
+    <string name="three_month">3 mois</string>
+    <string name="six_month">6 mois</string>
+    <string name="one_year">1 an</string>
+
+    <string name="spinner_title">Plage de l\'histoire de Stock</string>
+
+    <string name="quote_history_text">histoire de citation</string>
+    <string name="quote_history_error">Pas de données disponibles.</string>
+
+</resources>

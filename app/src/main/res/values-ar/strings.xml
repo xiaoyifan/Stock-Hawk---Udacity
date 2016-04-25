@@ -1,0 +1,37 @@
+<resources>
+    <string name="app_name">الأسهم هوك</string>
+
+    <string name="action_example">العمل سبيل المثال</string>
+
+    <string name="action_settings">إعدادات</string>
+    <string name="action_change_units"> وحدات التغيير </string>
+    <string name="symbol_search">رمز البحث</string>
+    <string name="content_test">بحث عن الأوراق المالية رمز</string>
+    <string name="input_hint">FB</string>
+    <string name="input_prefill"></string>
+    <string name="network_toast">اه اوه! هذا التطبيق يتطلب اتصال بالإنترنت</string>
+
+    <string name="valid_toast">" وأضاف!"</string>
+    <string name="invalid_toast">" ليس صحيحا الأسهم!"</string>
+
+    <string name="stock_info_not_available">التحديث غير متوفر.</string>
+    <string name="network_not_available">الشبكة غير متوفرة الآن</string>
+
+    <string name="pref_stock_status_key">stock-status</string>
+
+
+    <string name="title_activity_detail">DetailActivity</string>
+
+
+    <string name="one_week">1 أسبوع</string>
+    <string name="one_month">1 شهر</string>
+    <string name="three_month">3 اشهر</string>
+    <string name="six_month">6 اشهر</string>
+    <string name="one_year">1 سنة</string>
+
+    <string name="spinner_title">مجموعة الأسهم التاريخ</string>
+
+    <string name="quote_history_text">اقتباس التاريخ</string>
+    <string name="quote_history_error">لا تتوافر بيانات.</string>
+
+</resources>

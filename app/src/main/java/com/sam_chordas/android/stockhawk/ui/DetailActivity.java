@@ -117,12 +117,11 @@ public class DetailActivity extends AppCompatActivity implements Callback<QuoteI
             @Override
             public void onItemSelected(AdapterView<?> adapter, View v,
                                        int position, long id) {
-                // On selecting a spinner item
-                String item = adapter.getItemAtPosition(position).toString();
+
                 String startDate = Utils.getFormattedDate(System.currentTimeMillis());
                 Date date = new Date();
 
-                fetchStockDetails(symbol, startDate, Utils.getDateBackTo(date, item));
+                fetchStockDetails(symbol, startDate, Utils.getDateBackTo(date, position));
 
             }
 

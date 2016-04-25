@@ -1,0 +1,44 @@
+<resources>
+    <string name="app_name">股票雄鹰</string>
+
+    <string name="action_example"></string>
+
+    <string name="action_settings">设置</string>
+    <string name="action_change_units">更改单位</string>
+    <string name="symbol_search">股票搜索</string>
+    <string name="content_test">搜索一只股票</string>
+    <string name="input_hint">FB</string>
+    <string name="input_prefill"></string>
+    <string name="network_toast">Oh! 此应用需要连接网络</string>
+
+    <string name="valid_toast">" 已添加!"</string>
+    <string name="invalid_toast">" 不是一个合法的股票代码!"</string>
+
+    <string name="stock_info_not_available">升级现在不可用.</string>
+    <string name="network_not_available">网络现在不可用</string>
+
+    <string name="pref_stock_status_key">stock-status</string>
+
+
+    <string name="key_tag" translatable="false">tag</string>
+    <string name="key_symbol" translatable="false">symbol</string>
+    <string name="tag_periodic" translatable="false">periodic</string>
+
+    <!--Values-->
+    <string name="value_init" translatable="false">init</string>
+    <string name="value_add" translatable="false">add</string>
+    <string name="title_activity_detail">DetailActivity</string>
+
+
+    <string name="one_week">1 周</string>
+    <string name="one_month">1 月</string>
+    <string name="three_month">3 月</string>
+    <string name="six_month">6 月</string>
+    <string name="one_year">1 年</string>
+
+    <string name="spinner_title">股票历史范围</string>
+
+    <string name="quote_history_text">股票历史</string>
+    <string name="quote_history_error">数据错误.</string>
+
+</resources>
