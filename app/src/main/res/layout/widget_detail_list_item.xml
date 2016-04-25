@@ -39,10 +39,10 @@
                 android:textColor="@color/material_white"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingRight="10sp"
-                android:paddingEnd="10sp"
-                android:paddingLeft="10sp"
-                android:paddingStart="10sp"
+                android:paddingRight="@dimen/widget_text_padding"
+                android:paddingEnd="@dimen/widget_text_padding"
+                android:paddingLeft="@dimen/widget_text_padding"
+                android:paddingStart="@dimen/widget_text_padding"
                 tools:text="500"
                 />
             <TextView
@@ -51,10 +51,10 @@
                 style="@style/PercentChangeTextStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp"
-                android:paddingStart="5dp"
-                android:paddingEnd="5dp"
+                android:paddingRight="@dimen/widget_text_padding_small"
+                android:paddingEnd="@dimen/widget_text_padding_small"
+                android:paddingLeft="@dimen/widget_text_padding_small"
+                android:paddingStart="@dimen/widget_text_padding_small"
                 android:text="5%"
                 />
         </LinearLayout>
