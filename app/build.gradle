@@ -31,6 +31,7 @@ dependencies {
   compile 'com.squareup.retrofit2:converter-gson:2.0.0'
 
   compile 'com.github.PhilJay:MPAndroidChart:v2.2.4'
+  compile 'com.jakewharton:butterknife:7.0.1'
 
   compile 'com.android.support:support-annotations:22.0.0'
   compile 'com.google.android.gms:play-services-gcm:8.1.0'

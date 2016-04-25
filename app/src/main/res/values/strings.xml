@@ -27,6 +27,19 @@
   <!--Values-->
   <string name="value_init" translatable="false">init</string>
   <string name="value_add" translatable="false">add</string>
-    <string name="title_activity_detail">DetailActivity</string>
+  <string name="title_activity_detail">DetailActivity</string>
+
+
+
+  <string name="one_week">1W</string>
+  <string name="one_month">1M</string>
+  <string name="three_month">3M</string>
+  <string name="six_month">6M</string>
+  <string name="one_year">1Y</string>
+
+  <string name="spinner_title">Stock history range</string>
+
+  <string name="quote_history_text">Quote history</string>
+  <string name="quote_history_error">No data available.</string>
 
 </resources>

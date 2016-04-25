@@ -13,7 +13,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by sam_chordas on 10/8/15.
@@ -23,6 +27,9 @@ public class Utils {
   private static String LOG_TAG = Utils.class.getSimpleName();
 
   public static boolean showPercent = true;
+
+  public static final String DATE_FORMAT = "yyyy-MM-dd";
+
 
   public static String truncateBidPrice(String bidPrice){
     bidPrice = String.format("%.2f", Float.parseFloat(bidPrice));
@@ -142,5 +149,38 @@ public class Utils {
     return hasConnectedWifi || hasConnectedMobile;
   }
 
+  public static String getFormattedDate(long dateInMillis ) {
+    Locale localeUS = new Locale("en", "US");
+    SimpleDateFormat queryDayFormat = new SimpleDateFormat(Utils.DATE_FORMAT,localeUS);
+    return queryDayFormat.format(dateInMillis);
+  }
+
+  public static String getDateBackTo(Date date, String period){
+
+    Calendar calendar = Calendar.getInstance();
+    calendar.setTime(date);
+
+    switch (period){
+
+      case "1W":
+        calendar.add(Calendar.DATE, -7);
+        break;
+      case "1M":
+        calendar.add(Calendar.MONTH, -1);
+        break;
+      case "3M":
+        calendar.add(Calendar.MONTH, -3);
+        break;
+      case "6M":
+        calendar.add(Calendar.MONTH, -6);
+        break;
+      case "1Y":
+        calendar.add(Calendar.YEAR, -1);
+        break;
+
+    }
+
+    return getFormattedDate(calendar.getTimeInMillis());
+  }
 
 }
